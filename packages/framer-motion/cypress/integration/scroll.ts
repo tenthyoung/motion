@@ -253,6 +253,23 @@ describe("scroll() animation", () => {
                 expect($element.getBoundingClientRect().top).to.equal(200)
             })
     })
+
+    it("Correctly updates position and velocity", () => {
+        cy.visit("?test=scroll-info-velocity").wait(100)
+
+        cy.get("#container")
+            .scrollTo(0, 50)
+            .scrollTo(0, 100)
+            .wait(30)
+            .get("#position")
+            .should(([$element]: any) => {
+                expect($element.innerText).not.to.equal("0")
+            })
+            .get("#velocity")
+            .should(([$element]: any) => {
+                expect($element.innerText).not.to.equal("0")
+            })
+    })
 })
 
 describe("SVG", () => {
