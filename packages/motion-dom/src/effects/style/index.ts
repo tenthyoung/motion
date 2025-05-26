@@ -7,7 +7,7 @@ import { createEffect } from "../utils/create-effect"
 import { buildTransform } from "./transform"
 
 export const addStyleValue = (
-    element: HTMLElement,
+    element: HTMLElement | SVGElement,
     state: MotionValueState,
     key: string,
     value: MotionValue
