@@ -15,4 +15,6 @@ const addSVGValue = (
     return handler(element, state, key, value)
 }
 
-export const svgEffect = createSelectorEffect(createEffect(addSVGValue))
+export const svgEffect = /*@__PURE__*/ createSelectorEffect(
+    /*@__PURE__*/ createEffect(addSVGValue)
+)

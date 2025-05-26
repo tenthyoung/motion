@@ -20,4 +20,6 @@ export const addAttrValue = (
     })
 }
 
-export const attrEffect = createSelectorEffect(createEffect(addAttrValue))
+export const attrEffect = /*@__PURE__*/ createSelectorEffect(
+    /*@__PURE__*/ createEffect(addAttrValue)
+)
