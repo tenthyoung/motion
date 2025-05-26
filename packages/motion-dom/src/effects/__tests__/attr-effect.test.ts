@@ -71,8 +71,8 @@ describe("attrEffect", () => {
         const element = document.createElement("div")
 
         // Create motion values
-        const width = motionValue("100")
-        const dataTest = motionValue("test-value")
+        const width = motionValue<string | null>("100")
+        const dataTest = motionValue<string | null>("test-value")
 
         // Apply attr effect
         attrEffect(element, {
@@ -87,8 +87,8 @@ describe("attrEffect", () => {
         expect(element.getAttribute("data-test")).toBe("test-value")
 
         // Set values to null/undefined
-        width.set("")
-        dataTest.set("")
+        width.set(null)
+        dataTest.set(null)
 
         await nextFrame()
 

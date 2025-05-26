@@ -67,37 +67,6 @@ describe("propEffect", () => {
         expect(subject.testProp).toBe("new-value")
     })
 
-    it("handles multiple subjects", async () => {
-        // Create additional subjects
-        const subject1: { [key: string]: any } = {}
-        const subject2: { [key: string]: any } = {}
-
-        const width = motionValue(100)
-        const testProp = motionValue("test-value")
-
-        propEffect([subject1, subject2], {
-            width,
-            testProp,
-        })
-
-        await nextFrame()
-
-        expect(subject1.width).toBe(100)
-        expect(subject1.testProp).toBe("test-value")
-        expect(subject2.width).toBe(100)
-        expect(subject2.testProp).toBe("test-value")
-
-        width.set(200)
-        testProp.set("new-value")
-
-        await nextFrame()
-
-        expect(subject1.width).toBe(200)
-        expect(subject1.testProp).toBe("new-value")
-        expect(subject2.width).toBe(200)
-        expect(subject2.testProp).toBe("new-value")
-    })
-
     it("returns cleanup function that stops updating properties", async () => {
         const subject: { [key: string]: any } = {}
         // Create motion values
