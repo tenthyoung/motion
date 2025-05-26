@@ -1,46 +1,17 @@
 import { isCSSVar } from "../../render/dom/is-css-var"
 import { transformProps } from "../../render/utils/keys-transform"
-import {
-    ElementOrSelector,
-    resolveElements,
-} from "../../utils/resolve-elements"
 import { MotionValue } from "../../value"
 import { MotionValueState } from "../MotionValueState"
+import { createSelectorEffect } from "../utils/create-dom-effect"
+import { createEffect } from "../utils/create-effect"
 import { buildTransform } from "./transform"
 
-const stateMap = new WeakMap<Element, MotionValueState>()
-
-export function styleEffect(
-    subject: ElementOrSelector,
-    values: Record<string, MotionValue>
-) {
-    const elements = resolveElements(subject) as HTMLElement[]
-    const subscriptions: VoidFunction[] = []
-
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i]
-        const state = stateMap.get(element) ?? new MotionValueState()
-
-        stateMap.set(element, state)
-
-        for (const key in values) {
-            const value = values[key]
-            const remove = addValue(element, state, key, value)
-            subscriptions.push(remove)
-        }
-    }
-
-    return () => {
-        for (const cancel of subscriptions) cancel()
-    }
-}
-
-function addValue(
-    element: HTMLElement,
+export const addStyleValue = (
+    element: HTMLElement | SVGElement,
     state: MotionValueState,
     key: string,
     value: MotionValue
-) {
+) => {
     let render: VoidFunction | undefined = undefined
     let computed: MotionValue | undefined = undefined
 
@@ -64,3 +35,5 @@ function addValue(
 
     return state.set(key, value, render, computed)
 }
+
+export const styleEffect = createSelectorEffect(createEffect(addStyleValue))
