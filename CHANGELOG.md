@@ -4,7 +4,17 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [12.13.0] 2025-05-23
+## [12.14.0] 2025-05-26
+
+### Added
+
+-   Support for `originX`/`Y`/`Z` in `styleEffect`.
+
+### Fixed
+
+-   Added markers for pure function calls with effects.
+
+## [12.13.0] 2025-05-26
 
 ### Added
 
