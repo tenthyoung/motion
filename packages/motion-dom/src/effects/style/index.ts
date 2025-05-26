@@ -49,4 +49,6 @@ export const addStyleValue = (
     return state.set(key, value, render, computed)
 }
 
-export const styleEffect = createSelectorEffect(createEffect(addStyleValue))
+export const styleEffect = /*@__PURE__*/ createSelectorEffect(
+    /*@__PURE__*/ createEffect(addStyleValue)
+)
