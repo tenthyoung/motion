@@ -4,6 +4,16 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.13.0] 2025-05-23
+
+### Added
+
+-   `svgEffect`, `propEffect` and `attrEffect`.
+
+### Fixed
+
+-   Fixed a jump in layout animations in select circumstances.
+
 ## [12.12.2] 2025-05-23
 
 ### Fixed
