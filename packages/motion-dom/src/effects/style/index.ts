@@ -6,6 +6,8 @@ import { createSelectorEffect } from "../utils/create-dom-effect"
 import { createEffect } from "../utils/create-effect"
 import { buildTransform } from "./transform"
 
+const originProps = new Set(["originX", "originY", "originZ"])
+
 export const addStyleValue = (
     element: HTMLElement | SVGElement,
     state: MotionValueState,
@@ -23,6 +25,17 @@ export const addStyleValue = (
         }
 
         computed = state.get("transform")
+    } else if (originProps.has(key)) {
+        if (!state.get("transformOrigin")) {
+            state.set("transformOrigin", new MotionValue(""), () => {
+                const originX = state.latest.originX ?? "50%"
+                const originY = state.latest.originY ?? "50%"
+                const originZ = state.latest.originZ ?? 0
+                element.style.transformOrigin = `${originX} ${originY} ${originZ}`
+            })
+        }
+
+        computed = state.get("transformOrigin")
     } else if (isCSSVar(key)) {
         render = () => {
             element.style.setProperty(key, state.latest[key] as string)
