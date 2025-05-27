@@ -36,7 +36,12 @@ export const addAttrValue = (
               ;(element as any)[name] = state.latest[key]
           }
         : () => {
-              element.setAttribute(name, String(state.latest[key]))
+              const v = state.latest[key]
+              if (v === null || v === undefined) {
+                  element.removeAttribute(name)
+              } else {
+                  element.setAttribute(name, String(v))
+              }
           }
 
     return state.set(key, value, render)
