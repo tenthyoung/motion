@@ -19,20 +19,23 @@ function addSVGPathValue(
 
     if (key === "pathOffset") {
         return state.set(key, value, () =>
-            element.setAttribute("strokeDashoffset", toPx(-state.latest[key]))
+            element.setAttribute("stroke-dashoffset", toPx(-state.latest[key]))
         )
     } else {
-        if (!state.get("strokeDasharray")) {
-            state.set("strokeDasharray", new MotionValue("1 1"), () => {
-                const { pathLength = 1, pathSpacing = 1 } = state.latest
+        if (!state.get("stroke-dasharray")) {
+            state.set("stroke-dasharray", new MotionValue("1 1"), () => {
+                const { pathLength = 1, pathSpacing } = state.latest
+
                 element.setAttribute(
-                    "strokeDasharray",
-                    `${toPx(pathLength)} ${toPx(pathSpacing)}`
+                    "stroke-dasharray",
+                    `${toPx(pathLength)} ${toPx(
+                        pathSpacing ?? 1 - Number(pathLength)
+                    )}`
                 )
             })
         }
 
-        return state.set(key, value, undefined, state.get("strokeDasharray"))
+        return state.set(key, value, undefined, state.get("stroke-dasharray"))
     }
 }
 
@@ -44,6 +47,8 @@ const addSVGValue = (
 ) => {
     if (key.startsWith("path")) {
         return addSVGPathValue(element, state, key, value)
+    } else if (key.startsWith("attr")) {
+        return addAttrValue(element, state, convertAttrKey(key), value)
     }
 
     const handler = key in element.style ? addStyleValue : addAttrValue
@@ -53,3 +58,9 @@ const addSVGValue = (
 export const svgEffect = /*@__PURE__*/ createSelectorEffect(
     /*@__PURE__*/ createEffect(addSVGValue)
 )
+
+function convertAttrKey(key: string) {
+    return key.replace(/^attr([A-Z])/, (_, firstChar) =>
+        firstChar.toLowerCase()
+    )
+}

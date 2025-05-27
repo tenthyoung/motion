@@ -24,17 +24,13 @@
         </svg>
         <script type="module" src="/src/inc.js"></script>
         <script type="module">
-            const { motionValue, svgEffect } = window.Motion
+            const { motionValue, svgEffect, animate } = window.Motion
 
-            const pathOffset = motionValue(0)
-            const pathLength = motionValue(1)
-            const pathSpacing = motionValue(1)
+            const pathLength = motionValue(0)
 
-            svgEffect("path", {
-                pathOffset,
-                pathLength,
-                pathSpacing,
-            })
+            svgEffect("path", { pathLength })
+
+            pathLength.set(0.25)
         </script>
     </body>
 </html>
