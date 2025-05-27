@@ -4,6 +4,15 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.15.0] 2025-05-27
+
+### Added
+
+-   Support for `pathLength`/`pathSpacing`/`pathOffset` for `svgEffect`.
+-   Auto kebab-casing of `data` and `aria` attributes in `attrEffect`.
+-   `attrEffect` applies attributes via JS property where possible.
+-   Auto `transform-box: fill-box` for SVGs with `transform` in `styleEffect`.
+
 ## [12.14.0] 2025-05-26
 
 ### Added
