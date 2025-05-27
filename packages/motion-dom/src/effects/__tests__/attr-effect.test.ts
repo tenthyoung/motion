@@ -22,6 +22,9 @@ describe("attrEffect", () => {
             width,
             height,
             "data-test": dataTest,
+            dataCamelToKebab: dataTest,
+            "aria-test": dataTest,
+            ariaCamelToKebab: dataTest,
         })
 
         await nextFrame()
@@ -30,6 +33,9 @@ describe("attrEffect", () => {
         expect(element.getAttribute("width")).toBe("100")
         expect(element.getAttribute("height")).toBe("200")
         expect(element.getAttribute("data-test")).toBe("test-value")
+        expect(element.getAttribute("data-camel-to-kebab")).toBe("test-value")
+        expect(element.getAttribute("aria-test")).toBe("test-value")
+        expect(element.getAttribute("aria-camel-to-kebab")).toBe("test-value")
     })
 
     it("updates attributes when motion values change", async () => {

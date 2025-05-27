@@ -190,4 +190,90 @@ describe("svgEffect", () => {
         expect(element.style.transformBox).toBe("view-box")
         expect(element.style.transformOrigin).toBe("top left")
     })
+
+    it("handles path-related properties correctly", async () => {
+        const element = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+        )
+
+        // Create motion values for path properties
+        const pathOffset = motionValue("0.5")
+        const pathLength = motionValue("2")
+        const pathSpacing = motionValue("1")
+
+        // Apply svg effect
+        svgEffect(element, {
+            pathLength,
+            pathOffset,
+            pathSpacing,
+        })
+
+        await nextFrame()
+
+        // Verify initial path properties
+        expect(element.getAttribute("pathLength")).toBe("1")
+        expect(element.getAttribute("stroke-dashoffset")).toBe("-0.5px")
+        expect(element.getAttribute("stroke-dasharray")).toBe("2px 1px")
+
+        // Update values
+        pathOffset.set("0.25")
+        pathLength.set("3")
+        pathSpacing.set("2")
+
+        await nextFrame()
+
+        // Verify updated path properties
+        expect(element.getAttribute("pathLength")).toBe("1")
+        expect(element.getAttribute("stroke-dashoffset")).toBe("-0.25px")
+        expect(element.getAttribute("stroke-dasharray")).toBe("3px 2px")
+    })
+
+    it("handles path properties with cleanup", async () => {
+        const element = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+        )
+
+        const pathOffset = motionValue("0.5")
+        const pathLength = motionValue("2")
+        const pathSpacing = motionValue("1")
+
+        const cleanup = svgEffect(element, {
+            pathOffset,
+            pathLength,
+            pathSpacing,
+        })
+
+        await nextFrame()
+
+        // Verify initial values
+        expect(element.getAttribute("stroke-dashoffset")).toBe("-0.5px")
+        expect(element.getAttribute("stroke-dasharray")).toBe("2px 1px")
+
+        // Update values
+        pathOffset.set("0.25")
+        pathLength.set("3")
+        pathSpacing.set("2")
+
+        await nextFrame()
+
+        // Verify updates
+        expect(element.getAttribute("stroke-dashoffset")).toBe("-0.25px")
+        expect(element.getAttribute("stroke-dasharray")).toBe("3px 2px")
+
+        // Cleanup
+        cleanup()
+
+        // Update values again
+        pathOffset.set("0.75")
+        pathLength.set("4")
+        pathSpacing.set("3")
+
+        await nextFrame()
+
+        // Verify values didn't change after cleanup
+        expect(element.getAttribute("stroke-dashoffset")).toBe("-0.25px")
+        expect(element.getAttribute("stroke-dasharray")).toBe("3px 2px")
+    })
 })

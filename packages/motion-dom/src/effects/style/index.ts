@@ -1,5 +1,6 @@
 import { isCSSVar } from "../../render/dom/is-css-var"
 import { transformProps } from "../../render/utils/keys-transform"
+import { isHTMLElement } from "../../utils/is-html-element"
 import { MotionValue } from "../../value"
 import { MotionValueState } from "../MotionValueState"
 import { createSelectorEffect } from "../utils/create-dom-effect"
@@ -19,6 +20,17 @@ export const addStyleValue = (
 
     if (transformProps.has(key)) {
         if (!state.get("transform")) {
+            // If this is an HTML element, we need to set the transform-box to fill-box
+            // to normalise the transform relative to the element's bounding box
+            if (!isHTMLElement(element) && !state.get("transformBox")) {
+                addStyleValue(
+                    element,
+                    state,
+                    "transformBox",
+                    new MotionValue("fill-box")
+                )
+            }
+
             state.set("transform", new MotionValue("none"), () => {
                 element.style.transform = buildTransform(state)
             })
