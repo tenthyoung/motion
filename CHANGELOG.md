@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.15.1] 2025-05-30
+
+### Fixed
+
+-   Explicitly set layout animation velocity to zero to prevent persistent `MotionValue` carrying through velocity.
+
 ## [12.15.0] 2025-05-27
 
 ### Added
