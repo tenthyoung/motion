@@ -545,7 +545,6 @@ export function createProjectionNode<I>({
                                 this.resumingFrom.resumingFrom = undefined
                             }
 
-
                             const animationOptions = {
                                 ...getValueTransition(
                                     layoutTransition,
@@ -568,10 +567,10 @@ export function createProjectionNode<I>({
                              * Set animation origin after starting animation to avoid layout jump
                              * caused by stopping previous layout animation
                              */
-                             this.setAnimationOrigin(
-                                 delta,
-                                 hasOnlyRelativeTargetChanged
-                             )
+                            this.setAnimationOrigin(
+                                delta,
+                                hasOnlyRelativeTargetChanged
+                            )
                         } else {
                             /**
                              * If the layout hasn't changed and we have an animation that hasn't started yet,
@@ -1621,11 +1620,13 @@ export function createProjectionNode<I>({
 
                 activeAnimations.layout++
                 this.motionValue ||= motionValue(0)
+
                 this.currentAnimation = animateSingleValue(
                     this.motionValue,
                     [0, 1000],
                     {
                         ...(options as any),
+                        velocity: 0,
                         isSync: true,
                         onUpdate: (latest: number) => {
                             this.mixTargetDelta(latest)
